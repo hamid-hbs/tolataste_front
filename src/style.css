@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-tola-orange: #E8720C;
+  --color-tola-orange-dark: #C85E08;
+  --color-tola-yellow: #FFC107;
+  --color-tola-red: #E63946;
+  --color-tola-teal: #2EC4B6;
+  --color-tola-ink: #1A1A1A;
+  --color-tola-gray: #4A4A4A;
+  --color-tola-cream: #F4F1EC;
+  --color-tola-cream-dark: #E8E2D6;
+
+  --font-display: "Poppins", "Nunito", system-ui, sans-serif;
+  --font-body: "Nunito", "Inter", system-ui, sans-serif;
+  --font-script: "Caveat", cursive;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--color-tola-ink);
+    background-color: var(--color-tola-cream);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+}

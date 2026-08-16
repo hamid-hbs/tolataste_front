@@ -1,0 +1,13 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="60" cy="64" rx="48" ry="44" fill="#FDF6E8" stroke="#E8720C" stroke-width="4"/>
+  <circle cx="60" cy="58" r="18" fill="#FFC107"/>
+  <circle cx="60" cy="58" r="18" fill="url(#yolk)"/>
+  <circle cx="40" cy="92" r="3.5" fill="#E63946"/>
+  <circle cx="84" cy="94" r="3.5" fill="#2EC4B6"/>
+  <defs>
+    <radialGradient id="yolk" cx="0.35" cy="0.35" r="0.7">
+      <stop offset="0" stop-color="#FFD84D"/>
+      <stop offset="1" stop-color="#FFC107"/>
+    </radialGradient>
+  </defs>
+</svg>
