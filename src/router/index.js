@@ -5,6 +5,8 @@ const routes = [
   { path: '/', name: 'home', component: () => import('@/views/HomeView.vue') },
   { path: '/login', name: 'login', component: () => import('@/views/auth/LoginView.vue') },
   { path: '/register', name: 'register', component: () => import('@/views/auth/RegisterView.vue') },
+  { path: '/confidentialite', name: 'privacy', component: () => import('@/views/legal/PrivacyPolicyView.vue') },
+  { path: '/mentions-legales', name: 'legal', component: () => import('@/views/legal/LegalNoticeView.vue') },
 
   // Client
   {

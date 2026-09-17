@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { clientState as client } from '@/state/client'
 import { menuState as menu } from '@/state/menu'
@@ -10,7 +10,15 @@ import { Minus, Plus, Trash2, ShoppingBag } from '@lucide/vue'
 
 const router = useRouter()
 
-const freeTables = computed(() => tables.tables.filter((t) => t.status === 'free'))
+const freeTables = computed(() => {
+  const list = tables.availableTables.length > 0 ? tables.availableTables : tables.tables
+  return list.filter((t) => t.status === 'free')
+})
+const loadingTables = computed(() => tables.loadingAvailable)
+
+onMounted(() => {
+  tables.fetchAvailable()
+})
 
 function fmtPrice(p) {
   return new Intl.NumberFormat('fr-FR').format(p) + ' FCFA'
@@ -84,8 +92,9 @@ async function commander() {
       </div>
 
       <div>
-        <p class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Table</p>
-        <div class="flex flex-wrap gap-2">
+        <p class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Où mangez-vous ?</p>
+        <div v-if="loadingTables" class="text-xs text-gray-400">Chargement des tables disponibles…</div>
+        <div v-else class="flex flex-wrap gap-2">
           <button @click="client.setTable(null)"
             class="rounded-full px-4 py-2 text-xs font-bold transition"
             :class="client.tableId === null ? 'bg-orange-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'">
@@ -97,11 +106,18 @@ async function commander() {
             Table {{ t.number }}
           </button>
         </div>
+        <p v-if="!loadingTables && freeTables.length === 0" class="mt-2 text-xs text-gray-400">
+          Aucune table libre pour le moment — votre commande sera préparée à emporter.
+        </p>
+        <p v-else class="mt-2 text-xs text-gray-400">
+          Installez-vous puis choisissez votre table. Sinon laissez « À emporter ».
+        </p>
       </div>
 
       <div>
         <label class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-gray-500">Note</label>
-        <textarea v-model="client.note" placeholder="Ajouter une note..."
+        <textarea v-model="client.note"
+          :placeholder="client.tableId ? 'Précision pour la cuisine… (ex : sans piment)' : 'Précisez ici si c\'est à emporter… (ex : à emporter, sauce à part)'"
           class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-orange-500"></textarea>
       </div>
 

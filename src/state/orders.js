@@ -14,9 +14,6 @@ export const STATUS_LABELS = {
 export const PAYMENT_LABELS = {
   cash: 'Espèces',
   mobile_money: 'Mobile Money',
-  card: 'Carte',
-  orange_money: 'Orange Money',
-  wave: 'Wave',
 }
 
 const ACTIVE_STATUSES = ['pending', 'waiting', 'preparing', 'ready']

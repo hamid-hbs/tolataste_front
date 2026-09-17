@@ -22,6 +22,9 @@ Route::prefix('v1')->group(function () {
     Route::get('products/{product}', [ProductController::class, 'show']);
     Route::get('categories', [CategoryController::class, 'index']);
 
+    // Tables libres visibles par les clients (choix de la table sur place)
+    Route::get('tables/available', [TableController::class, 'available']);
+
     // Commande en ligne sans compte (client invité)
     Route::post('orders/guest', [OrderController::class, 'store']);
 

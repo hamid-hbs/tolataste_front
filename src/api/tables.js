@@ -18,6 +18,12 @@ export const tablesService = {
     return list.map(mapTable)
   },
 
+  async getAvailable() {
+    const res = await api.get('/tables/available', { auth: false })
+    const list = Array.isArray(res) ? res : (res.tables ?? api.unwrapList(res))
+    return list.map(mapTable)
+  },
+
   async updateStatus(id, status) {
     await api.patch(`/tables/${id}/status`, { status })
   },

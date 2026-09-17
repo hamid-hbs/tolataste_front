@@ -16,8 +16,15 @@ class StorePaymentRequest extends FormRequest
     {
         return [
             'order_id' => ['required', 'integer', 'exists:orders,id'],
-            'method' => ['required', Rule::in(['cash', 'card', 'orange_money', 'wave'])],
+            'method' => ['required', Rule::in(['cash', 'mobile_money'])],
             'amount' => ['required', 'integer', 'min:0'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'method.in' => 'Moyen de paiement invalide : choisissez Espèces ou Mobile Money.',
         ];
     }
 }

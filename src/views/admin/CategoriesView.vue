@@ -89,8 +89,8 @@ async function removeCategory(name) {
     </div>
 
     <Teleport to="body">
-      <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm" @click.self="showModal = false">
-        <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+      <div v-if="showModal" class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm sm:items-center sm:p-4" @click.self="showModal = false">
+        <div class="max-h-[92vh] w-full overflow-y-auto rounded-t-2xl bg-white p-4 shadow-2xl sm:max-w-md sm:rounded-2xl sm:p-6">
           <div class="mb-4 flex items-center justify-between">
             <h3 class="text-lg font-bold text-tola-ink">{{ editingCategoryId ? 'Modifier la catégorie' : 'Nouvelle catégorie' }}</h3>
             <button @click="showModal = false" class="rounded-full p-1 text-tola-gray hover:bg-tola-cream-dark/50"><X :size="20" /></button>

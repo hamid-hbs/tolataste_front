@@ -84,9 +84,9 @@ function fmtPrice(p) {
 
     <div v-else class="space-y-4">
       <div v-for="order in pendingOrders" :key="order.id"
-        class="cursor-pointer rounded-2xl bg-white p-5 ring-1 ring-tola-cream-dark/60 transition hover:shadow-md"
+        class="cursor-pointer rounded-2xl bg-white p-4 ring-1 ring-tola-cream-dark/60 transition hover:shadow-md sm:p-5"
         @click="detailOrderId = order.id">
-        <div class="flex items-start justify-between gap-4">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2">
               <span class="text-lg font-extrabold text-tola-ink">#{{ order.id }}</span>
@@ -104,17 +104,17 @@ function fmtPrice(p) {
             </p>
             <p class="mt-3 text-sm font-bold text-tola-orange">{{ fmtPrice(order.total) }}</p>
           </div>
-          <div class="flex flex-col gap-2 shrink-0">
+          <div class="grid grid-cols-1 gap-2 sm:flex sm:w-40 sm:flex-col sm:shrink-0">
             <button @click.stop="detailOrderId = order.id"
-              class="flex items-center justify-center gap-1.5 rounded-full border border-tola-cream-dark px-4 py-2 text-xs font-bold text-tola-gray transition hover:bg-tola-cream">
+              class="flex w-full items-center justify-center gap-1.5 rounded-full border border-tola-cream-dark px-4 py-2.5 text-xs font-bold text-tola-gray transition hover:bg-tola-cream">
               <Eye :size="14" /> Détails
             </button>
             <button @click.stop="takeCharge(order.id)"
-              class="flex items-center gap-1.5 rounded-full bg-tola-orange px-4 py-2 text-xs font-bold text-white transition hover:bg-tola-orange-dark">
+              class="flex w-full items-center justify-center gap-1.5 rounded-full bg-tola-orange px-4 py-2.5 text-xs font-bold text-white transition hover:bg-tola-orange-dark">
               <CheckCircle :size="14" /> Prendre en charge
             </button>
             <button @click.stop="cancelOrder(order.id)"
-              class="flex items-center gap-1.5 rounded-full bg-tola-red/[0.06] px-4 py-2 text-xs font-bold text-tola-red transition hover:bg-red-100">
+              class="flex w-full items-center justify-center gap-1.5 rounded-full bg-tola-red/[0.06] px-4 py-2.5 text-xs font-bold text-tola-red transition hover:bg-red-100">
               <X :size="14" /> Annuler
             </button>
           </div>
@@ -134,9 +134,9 @@ function fmtPrice(p) {
 
       <div v-else class="space-y-4">
         <div v-for="order in orders.historyOrders" :key="order.id"
-          class="cursor-pointer rounded-2xl bg-white p-5 ring-1 ring-tola-cream-dark/60 transition hover:shadow-md"
+          class="cursor-pointer rounded-2xl bg-white p-4 ring-1 ring-tola-cream-dark/60 transition hover:shadow-md sm:p-5"
           @click="detailOrderId = order.id">
-          <div class="flex items-start justify-between gap-4">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="text-lg font-extrabold text-tola-ink">#{{ order.id }}</span>
@@ -166,9 +166,9 @@ function fmtPrice(p) {
                 <span v-else class="rounded-full bg-tola-red/10 px-2.5 py-0.5 text-[10px] font-bold text-tola-red">Non payée</span>
               </div>
             </div>
-            <div class="shrink-0">
+            <div class="w-full sm:w-auto sm:shrink-0">
               <button @click.stop="detailOrderId = order.id"
-                class="flex items-center gap-1.5 rounded-full border border-tola-cream-dark px-4 py-2 text-xs font-bold text-tola-gray transition hover:bg-tola-cream">
+                class="flex w-full items-center justify-center gap-1.5 rounded-full border border-tola-cream-dark px-4 py-2.5 text-xs font-bold text-tola-gray transition hover:bg-tola-cream">
                 <Eye :size="14" /> Détails
               </button>
             </div>

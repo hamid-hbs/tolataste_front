@@ -1,6 +1,7 @@
 <template>
   <div class="app-layout">
-    <aside class="app-sidebar">
+    <div v-if="sidebarOpen" class="sidebar-overlay" @click="sidebarOpen = false"></div>
+    <aside class="app-sidebar" :class="{ open: sidebarOpen }">
       <div class="sidebar-brand">
         <img class="brand-icon" src="/TolaTaste.jpeg" alt="Tola Taste" />
         <div class="brand-text">
@@ -11,7 +12,7 @@
 
       <nav class="sidebar-nav">
         <router-link v-for="link in navLinks" :key="link.to" :to="link.to"
-          class="nav-item" :class="{ active: $route.path.startsWith(link.to) }">
+          class="nav-item" :class="{ active: $route.path.startsWith(link.to) }" @click="sidebarOpen = false">
           <component :is="link.icon" :size="18" class="nav-icon" :stroke-width="1.8" />
           <span class="nav-label">{{ link.label }}</span>
           <span v-if="link.badge && link.badge() > 0" class="nav-badge">{{ link.badge() }}</span>
@@ -32,9 +33,15 @@
 
     <div class="app-main">
       <header class="app-header">
-        <h2>{{ pageTitle }}</h2>
+        <div class="header-left">
+          <button class="burger-btn" @click="sidebarOpen = true" aria-label="Ouvrir le menu">
+            <Menu :size="22" />
+          </button>
+          <h2>{{ pageTitle }}</h2>
+        </div>
         <div class="header-actions">
-          <span class="text-sm text-tola-gray">{{ new Date().toLocaleDateString('fr-FR', { dateStyle: 'full' }) }}</span>
+          <NotificationBell />
+          <span class="header-date">{{ new Date().toLocaleDateString('fr-FR', { dateStyle: 'full' }) }}</span>
         </div>
       </header>
       <div class="app-content">
@@ -45,7 +52,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { authState } from '@/state/auth'
 import { ordersState } from '@/state/orders'
@@ -54,9 +61,10 @@ import { settingsState } from '@/state/settings'
 import { notificationsState } from '@/state/notifications'
 import { menuState } from '@/state/menu'
 import { confirmLogout } from '@/utils/confirm'
+import NotificationBell from '@/components/NotificationBell.vue'
 import {
   LayoutGrid, ClipboardList, BarChart3, CreditCard, ChefHat,
-  Utensils, Users, FolderOpen,
+  Utensils, Users, FolderOpen, Menu,
 } from '@lucide/vue'
 
 const auth = authState
@@ -66,10 +74,17 @@ const settingsStore = settingsState
 const notif = notificationsState
 const router = useRouter()
 const route = useRoute()
-
+const sidebarOpen = ref(false)
 let refreshTimer
 
+watch(() => route.path, () => { sidebarOpen.value = false })
+
+function closeOnEscape(e) {
+  if (e.key === 'Escape') sidebarOpen.value = false
+}
+
 onMounted(() => {
+  window.addEventListener('keydown', closeOnEscape)
   orders.fetchAll()
   tables.fetchAll()
   auth.fetchUsers()
@@ -80,6 +95,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   if (refreshTimer) window.clearInterval(refreshTimer)
+  window.removeEventListener('keydown', closeOnEscape)
 })
 
 const navLinks = computed(() => {
@@ -140,21 +156,52 @@ function handleLogout() {
 
 <style scoped>
 .app-layout { display: flex; min-height: 100vh; background: #f4f1ec; }
+.sidebar-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 90;
+}
 .app-sidebar {
-  position: fixed; top: 0; left: 0; bottom: 0; width: 240px;
+  position: fixed; top: 0; left: 0; bottom: 0; width: 260px; max-width: 85vw;
   background: #1a1a1a;
   display: flex; flex-direction: column; z-index: 100;
+  transform: translateX(-105%);
+  transition: transform 0.22s ease;
 }
-.app-main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+.app-sidebar.open { transform: translateX(0); }
+.app-main { margin-left: 0; flex: 1; display: flex; flex-direction: column; min-height: 100vh; min-width: 0; }
 .app-header {
   position: sticky; top: 0; z-index: 50;
   background: rgba(255,255,255,0.85); backdrop-filter: blur(12px);
   border-bottom: 1px solid #e8e2d6;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 1rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  padding: 0.75rem 1rem;
 }
-.app-header h2 { font-size: 1.25rem; font-weight: 800; color: #1a1a1a; margin: 0; }
-.app-content { flex: 1; padding: 1.5rem; }
+.header-left { display: flex; align-items: center; gap: 0.625rem; min-width: 0; }
+.burger-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; min-height: 44px; border: none; border-radius: 0.75rem;
+  background: #1a1a1a; color: #fff; cursor: pointer;
+}
+.app-header h2 {
+  font-size: 1.05rem; font-weight: 800; color: #1a1a1a; margin: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.header-actions { display: flex; align-items: center; gap: 0.625rem; min-width: 0; }
+.header-date { display: none; font-size: 0.8125rem; color: #6b7280; }
+.app-content { flex: 1; padding: 1rem; min-width: 0; }
+
+@media (min-width: 640px) {
+  .app-content { padding: 1.5rem; }
+  .app-header { padding: 1rem 1.5rem; }
+  .app-header h2 { font-size: 1.25rem; }
+  .header-date { display: block; }
+}
+
+@media (min-width: 1024px) {
+  .app-sidebar { transform: none; width: 240px; }
+  .sidebar-overlay { display: none; }
+  .burger-btn { display: none; }
+  .app-main { margin-left: 240px; }
+}
 
 .sidebar-brand { display: flex; align-items: center; gap: 0.75rem; padding: 1.25rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
 .brand-icon { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; }
@@ -164,9 +211,10 @@ function handleLogout() {
 .sidebar-nav { flex: 1; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.25rem; overflow-y: auto; }
 .nav-item {
   display: flex; align-items: center; gap: 0.75rem;
-  padding: 0.675rem 0.875rem; border-radius: 0.625rem;
+  padding: 0.75rem 0.875rem; border-radius: 0.625rem;
   color: rgba(255,255,255,0.65); text-decoration: none;
   font-size: 0.875rem; font-weight: 600; transition: all 0.15s;
+  min-height: 44px;
 }
 .nav-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
 .nav-item.active { background: #e8720c; color: #fff; }

@@ -15,11 +15,19 @@ export const TABLE_STATUS_COLORS = {
   cleaning: 'bg-tola-cream text-tola-gray',
 }
 
-const state = reactive({ tables: [] })
+const state = reactive({ tables: [], available: [], loadingAvailable: false })
 
 export const tablesState = {
   get tables() {
     return state.tables
+  },
+
+  get availableTables() {
+    return state.available
+  },
+
+  get loadingAvailable() {
+    return state.loadingAvailable
   },
 
   get statusLabels() {
@@ -43,6 +51,20 @@ export const tablesState = {
       state.tables = await tablesService.getAll()
     } catch {
       // on garde l'état actuel si le backend est indisponible
+    }
+  },
+
+  async fetchAvailable() {
+    state.loadingAvailable = true
+    try {
+      state.available = await tablesService.getAvailable()
+      // Synchronise aussi la liste générique pour les écrans client
+      // qui lisent encore `tables.tables`.
+      state.tables = state.available
+    } catch {
+      // on garde l'état actuel si le backend est indisponible
+    } finally {
+      state.loadingAvailable = false
     }
   },
 
@@ -76,5 +98,7 @@ export const tablesState = {
 
   reset() {
     state.tables = []
+    state.available = []
+    state.loadingAvailable = false
   },
 }

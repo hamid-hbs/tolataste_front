@@ -46,7 +46,7 @@ const kpis = computed(() => [
         <div :class="`mb-2 flex h-10 w-10 items-center justify-center rounded-xl ${kpi.color}`">
           <component :is="kpi.icon" :size="20" />
         </div>
-        <p class="text-lg font-extrabold text-tola-ink">{{ kpi.value }}</p>
+        <p class="text-lg font-extrabold text-tola-ink sm:text-xl">{{ kpi.value }}</p>
         <p class="text-xs font-semibold text-tola-gray">{{ kpi.label }}</p>
       </div>
     </div>
@@ -57,8 +57,8 @@ const kpis = computed(() => [
           <ListOrdered :size="16" class="text-tola-orange" /> Dernières commandes
         </h2>
       </div>
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm">
+      <div class="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+        <table class="w-full min-w-[640px] text-left text-sm">
           <thead>
             <tr class="border-b border-tola-cream-dark text-xs font-bold uppercase tracking-wider text-tola-gray">
               <th class="px-5 py-3">#</th>

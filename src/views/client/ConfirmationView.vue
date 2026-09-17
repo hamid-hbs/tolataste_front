@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ordersState } from '@/state/orders'
 import { tablesState } from '@/state/tables'
@@ -13,6 +13,11 @@ const router = useRouter()
 
 const order = computed(() => orders.getOrder(Number(props.id)))
 const table = computed(() => (order.value?.tableId ? tables.getTable(order.value.tableId) : null))
+const isDineIn = computed(() => order.value?.type === 'dine_in' || order.value?.type === 'dine-in' || !!order.value?.tableId)
+
+onMounted(() => {
+  if (tables.tables.length === 0) tables.fetchAvailable()
+})
 
 function fmtPrice(p) {
   return new Intl.NumberFormat('fr-FR').format(p) + ' FCFA'
@@ -35,9 +40,13 @@ function fmtPrice(p) {
         <span class="text-xs font-bold uppercase tracking-wider text-gray-500">Référence</span>
         <span class="font-bold text-gray-900">#{{ order.id }}</span>
       </div>
-      <div v-if="table" class="mb-4 flex items-center justify-between border-b border-gray-100 pb-4">
+      <div class="mb-4 flex items-center justify-between border-b border-gray-100 pb-4">
+        <span class="text-xs font-bold uppercase tracking-wider text-gray-500">Type</span>
+        <span class="font-bold text-gray-900">{{ isDineIn ? 'Sur place' : 'À emporter' }}</span>
+      </div>
+      <div v-if="isDineIn" class="mb-4 flex items-center justify-between border-b border-gray-100 pb-4">
         <span class="text-xs font-bold uppercase tracking-wider text-gray-500">Table</span>
-        <span class="font-bold text-gray-900">{{ table.number }}</span>
+        <span class="font-bold text-gray-900">{{ table ? table.number : order.tableId }}</span>
       </div>
       <div class="mb-4 border-b border-gray-100 pb-4">
         <p class="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Articles</p>

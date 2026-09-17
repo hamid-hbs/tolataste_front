@@ -57,7 +57,7 @@ function markReady(orderId) {
   <div>
     <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
       <h1 class="text-xl font-extrabold text-tola-ink font-display">Cuisine</h1>
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-2">
         <button @click="tab = 'live'"
           class="rounded-full px-4 py-2 text-xs font-bold transition"
           :class="tab === 'live' ? 'bg-tola-orange text-white' : 'bg-tola-cream text-tola-gray'">
@@ -176,9 +176,9 @@ function markReady(orderId) {
 
       <div v-else class="space-y-4">
         <div v-for="order in orders.historyOrders" :key="order.id"
-          class="cursor-pointer rounded-2xl bg-white p-5 ring-1 ring-tola-cream-dark/60 transition hover:shadow-md"
+          class="cursor-pointer rounded-2xl bg-white p-4 ring-1 ring-tola-cream-dark/60 transition hover:shadow-md sm:p-5"
           @click="detailOrderId = order.id">
-          <div class="flex items-start justify-between gap-4">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
             <div class="flex-1 min-w-0">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="text-lg font-extrabold text-tola-ink">#{{ order.id }}</span>
@@ -208,9 +208,9 @@ function markReady(orderId) {
                 <span v-else class="rounded-full bg-tola-red/10 px-2.5 py-0.5 text-[10px] font-bold text-tola-red">Non payée</span>
               </div>
             </div>
-            <div class="shrink-0">
+            <div class="w-full sm:w-auto sm:shrink-0">
               <button @click.stop="detailOrderId = order.id"
-                class="flex items-center gap-1.5 rounded-full border border-tola-cream-dark px-4 py-2 text-xs font-bold text-tola-gray transition hover:bg-tola-cream">
+                class="flex w-full items-center justify-center gap-1.5 rounded-full border border-tola-cream-dark px-4 py-2.5 text-xs font-bold text-tola-gray transition hover:bg-tola-cream">
                 <Eye :size="14" /> Détails
               </button>
             </div>

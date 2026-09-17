@@ -205,8 +205,8 @@ function fmtPrice(p) {
           <Plus :size="14" /> Ajouter
         </button>
       </div>
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm">
+      <div class="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+        <table class="w-full min-w-[680px] text-left text-sm">
           <thead>
             <tr class="border-b border-tola-cream-dark text-xs font-bold uppercase tracking-wider text-tola-gray">
               <th class="px-5 py-3"></th>
@@ -251,8 +251,8 @@ function fmtPrice(p) {
     </div>
 
     <Teleport to="body">
-      <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm" @click.self="showModal = false">
-        <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+      <div v-if="showModal" class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm sm:items-center sm:p-4" @click.self="showModal = false">
+        <div class="max-h-[92vh] w-full overflow-y-auto rounded-t-2xl bg-white p-4 shadow-2xl sm:max-w-md sm:rounded-2xl sm:p-6">
           <div class="mb-4 flex items-center justify-between">
             <h3 class="text-lg font-bold text-tola-ink">{{ editingItem.id ? 'Modifier' : 'Ajouter' }} un article</h3>
             <button @click="showModal = false" class="rounded-full p-1 text-tola-gray hover:bg-tola-cream-dark/50"><X :size="20" /></button>
@@ -286,7 +286,7 @@ function fmtPrice(p) {
               <textarea v-model="editingItem.description" rows="2"
                 class="mt-1 w-full rounded-xl border border-tola-cream-dark px-4 py-2.5 text-sm outline-none focus:border-tola-orange"></textarea>
             </div>
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label class="text-xs font-bold text-tola-gray">Prix (FCFA)</label>
                 <input v-model.number="editingItem.price" type="number" min="0"
@@ -314,8 +314,8 @@ function fmtPrice(p) {
     </Teleport>
 
     <Teleport to="body">
-      <div v-if="showCategoryModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm" @click.self="showCategoryModal = false">
-        <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+      <div v-if="showCategoryModal" class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm sm:items-center sm:p-4" @click.self="showCategoryModal = false">
+        <div class="max-h-[92vh] w-full overflow-y-auto rounded-t-2xl bg-white p-4 shadow-2xl sm:max-w-md sm:rounded-2xl sm:p-6">
           <div class="mb-4 flex items-center justify-between">
             <h3 class="text-lg font-bold text-tola-ink">{{ editingCategoryId ? 'Modifier la catégorie' : 'Nouvelle catégorie' }}</h3>
             <button @click="showCategoryModal = false" class="rounded-full p-1 text-tola-gray hover:bg-tola-cream-dark/50"><X :size="20" /></button>

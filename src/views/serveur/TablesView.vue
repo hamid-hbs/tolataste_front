@@ -109,8 +109,8 @@ function fmtPrice(p) {
     </div>
 
     <Teleport to="body">
-      <div v-if="showModal" class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 px-4 pb-8 pt-16 backdrop-blur-sm" @click.self="showModal = false">
-        <div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl">
+      <div v-if="showModal" class="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto bg-black/40 backdrop-blur-sm sm:items-start sm:px-4 sm:pb-8 sm:pt-16" @click.self="showModal = false">
+        <div class="max-h-[92vh] w-full overflow-y-auto rounded-t-2xl bg-white p-4 shadow-2xl sm:max-w-lg sm:rounded-2xl sm:p-6">
           <div class="mb-4 flex items-center justify-between">
             <h3 class="text-lg font-bold text-tola-ink">
               Table {{ tables.getTable(selectedTableId)?.number }}

@@ -72,7 +72,7 @@ async function removeUser(id, name) {
 
 <template>
   <div>
-    <div class="mb-6 flex items-center justify-between">
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
       <h1 class="text-xl font-extrabold text-tola-ink font-display">Utilisateurs</h1>
       <button @click="openAdd"
         class="flex items-center gap-1.5 rounded-full bg-tola-orange px-4 py-2 text-xs font-bold text-white transition hover:bg-tola-orange-dark">
@@ -85,20 +85,20 @@ async function removeUser(id, name) {
         <p class="text-xs font-bold uppercase tracking-wider text-tola-gray">{{ auth.users.length }} utilisateur(s)</p>
       </div>
       <div class="divide-y divide-tola-cream-dark">
-        <div v-for="user in auth.users" :key="user.id" class="flex items-center gap-4 px-5 py-4">
+        <div v-for="user in auth.users" :key="user.id" class="flex items-center gap-3 px-4 py-4 sm:gap-4 sm:px-5">
           <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-tola-cream font-bold text-tola-gray">
             {{ user.name.charAt(0).toUpperCase() }}
           </div>
           <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-tola-ink">{{ user.name }}</span>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="truncate font-bold text-tola-ink">{{ user.name }}</span>
               <span class="rounded-full px-2.5 py-0.5 text-[10px] font-bold" :class="roleColors[user.role]">
                 {{ auth.roleLabels[user.role] }}
               </span>
             </div>
-            <p class="text-xs text-tola-gray">{{ user.email }}</p>
+            <p class="truncate text-xs text-tola-gray">{{ user.email }}</p>
           </div>
-          <div class="flex items-center gap-1">
+          <div class="flex shrink-0 items-center gap-1">
             <button @click="openEdit(user)"
               class="flex h-9 w-9 items-center justify-center rounded-full text-tola-gray transition hover:bg-tola-cream-dark/50 hover:text-tola-orange">
               <Pencil :size="16" />
@@ -113,8 +113,8 @@ async function removeUser(id, name) {
     </div>
 
     <Teleport to="body">
-      <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm" @click.self="showModal = false">
-        <div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
+      <div v-if="showModal" class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm sm:items-center sm:p-4" @click.self="showModal = false">
+        <div class="max-h-[92vh] w-full overflow-y-auto rounded-t-2xl bg-white p-4 shadow-2xl sm:max-w-sm sm:rounded-2xl sm:p-6">
           <h3 class="mb-4 text-lg font-bold text-tola-ink">{{ editingId ? 'Modifier un utilisateur' : 'Ajouter un utilisateur' }}</h3>
           <div class="space-y-4">
             <div>

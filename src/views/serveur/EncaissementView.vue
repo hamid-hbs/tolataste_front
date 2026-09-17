@@ -130,8 +130,8 @@ const paymentMethods = [
 
     <div v-else class="space-y-4">
       <div v-for="order in unpaidOrders" :key="order.id"
-        class="rounded-2xl bg-white p-5 ring-1 ring-tola-cream-dark/60">
-        <div class="flex items-start justify-between gap-4">
+        class="rounded-2xl bg-white p-4 ring-1 ring-tola-cream-dark/60 sm:p-5">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2">
               <span class="text-lg font-extrabold text-tola-ink">#{{ order.id }}</span>
@@ -171,19 +171,19 @@ const paymentMethods = [
           </div>
         </div>
 
-        <div class="mt-4 flex items-center gap-3">
+        <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
           <div class="flex-1">
             <label class="text-xs font-bold text-tola-gray">Réduction (FCFA)</label>
             <input type="number" min="0" :value="order.discount"
               @input="orders.applyDiscount(order.id, Number(($event.target).value))"
-              class="mt-1 w-full rounded-lg border border-tola-cream-dark px-3 py-1.5 text-sm outline-none focus:border-tola-orange" />
+              class="mt-1 w-full rounded-lg border border-tola-cream-dark px-3 py-2.5 text-sm outline-none focus:border-tola-orange" />
           </div>
           <button @click="openPayment(order.id)"
-            class="flex items-center gap-1.5 rounded-full bg-tola-orange px-5 py-2.5 text-xs font-bold text-white transition hover:bg-tola-orange-dark">
+            class="flex w-full items-center justify-center gap-1.5 rounded-full bg-tola-orange px-5 py-3 text-xs font-bold text-white transition hover:bg-tola-orange-dark sm:w-auto sm:py-2.5">
             <DollarSign :size="14" /> Paiement
           </button>
           <button @click="detailOrderId = order.id"
-            class="flex items-center gap-1.5 rounded-full border border-tola-cream-dark px-4 py-2.5 text-xs font-bold text-tola-gray transition hover:bg-tola-cream">
+            class="flex w-full items-center justify-center gap-1.5 rounded-full border border-tola-cream-dark px-4 py-3 text-xs font-bold text-tola-gray transition hover:bg-tola-cream sm:w-auto sm:py-2.5">
             <Eye :size="14" /> Détails
           </button>
         </div>
@@ -193,8 +193,8 @@ const paymentMethods = [
     <OrderDetailsModal v-if="detailOrderId" :order-id="detailOrderId" @close="detailOrderId = null" />
 
     <Teleport to="body">
-      <div v-if="paymentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm" @click.self="paymentModal = null">
-        <div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
+      <div v-if="paymentModal" class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm sm:items-center sm:p-4" @click.self="paymentModal = null">
+        <div class="max-h-[92vh] w-full overflow-y-auto rounded-t-2xl bg-white p-4 shadow-2xl sm:max-w-sm sm:rounded-2xl sm:p-6">
           <div class="mb-1 flex items-center justify-between">
             <h3 class="text-lg font-bold text-tola-ink">Paiement #{{ paymentModal.orderId }}</h3>
             <button @click="paymentModal = null" class="rounded-full p-1 text-tola-gray hover:bg-tola-cream-dark/50"><X :size="20" /></button>
@@ -205,7 +205,7 @@ const paymentMethods = [
             <p class="text-3xl font-extrabold text-tola-ink">{{ fmtPrice(paymentModal.total) }}</p>
           </div>
 
-          <div class="mb-4 flex gap-2">
+          <div class="mb-4 grid grid-cols-3 gap-2">
             <button v-for="pm in paymentMethods" :key="pm.key" @click="selectedMethod = pm.key"
               class="flex flex-1 flex-col items-center gap-1 rounded-xl border-2 p-3 transition"
               :class="selectedMethod === pm.key ? 'border-tola-orange bg-tola-orange/[0.06]' : 'border-tola-cream-dark hover:border-tola-orange/30'">

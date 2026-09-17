@@ -67,8 +67,8 @@ function formatDate(ts) {
 
 <template>
   <Teleport to="body">
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm" @click.self="emit('close')">
-      <div class="flex max-h-[90vh] w-full max-w-lg flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
+    <div class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm sm:items-center sm:p-4" @click.self="emit('close')">
+      <div class="flex max-h-[92vh] w-full flex-col overflow-hidden rounded-t-2xl bg-white shadow-2xl sm:max-w-lg sm:rounded-2xl">
         <div class="flex items-center justify-between border-b border-tola-cream-dark px-5 py-4">
           <div class="flex items-center gap-3">
             <h3 class="text-lg font-extrabold text-tola-ink">Commande #{{ order?.id ?? props.orderId }}</h3>

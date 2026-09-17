@@ -47,7 +47,7 @@ function removeTable(id, number) {
 
 <template>
   <div>
-    <div class="mb-6 flex items-center justify-between">
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
       <h1 class="text-xl font-extrabold text-tola-ink font-display">Gestion des tables</h1>
       <button @click="openAdd"
         class="flex items-center gap-1.5 rounded-full bg-tola-orange px-4 py-2 text-xs font-bold text-white transition hover:bg-tola-orange-dark">
@@ -56,8 +56,8 @@ function removeTable(id, number) {
     </div>
 
     <div class="rounded-2xl bg-white ring-1 ring-tola-cream-dark/60">
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm">
+      <div class="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+        <table class="w-full min-w-[560px] text-left text-sm">
           <thead>
             <tr class="border-b border-tola-cream-dark text-xs font-bold uppercase tracking-wider text-tola-gray">
               <th class="px-5 py-3">Numéro</th>
@@ -94,8 +94,8 @@ function removeTable(id, number) {
     </div>
 
     <Teleport to="body">
-      <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm" @click.self="showModal = false">
-        <div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
+      <div v-if="showModal" class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm sm:items-center sm:p-4" @click.self="showModal = false">
+        <div class="max-h-[92vh] w-full overflow-y-auto rounded-t-2xl bg-white p-4 shadow-2xl sm:max-w-sm sm:rounded-2xl sm:p-6">
           <h3 class="mb-4 text-lg font-bold text-tola-ink">{{ editing.id ? 'Modifier' : 'Ajouter' }} une table</h3>
           <div class="space-y-4">
             <div>
